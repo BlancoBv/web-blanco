@@ -4,7 +4,6 @@ interface Props {
 }
 
 const { title } = Astro.props;
-import Header from "@components/navigation/Header";
 ---
 
 <!doctype html>
@@ -17,8 +16,7 @@ import Header from "@components/navigation/Header";
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body>
-    <Header />
+  <body class="bg-base-300">
     <slot />
   </body>
 </html>

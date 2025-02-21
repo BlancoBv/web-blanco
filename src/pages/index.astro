@@ -1,8 +1,105 @@
 ---
+import Card from "@components/Card.astro";
 import Layout from "../layouts/Layout.astro";
-import Card from "../components/Card.astro";
+import "bootstrap-icons/font/bootstrap-icons.min.css";
+import { Image } from "astro:assets";
+import astro from "../assets/img/astro.webp";
+import js from "../assets/img/js.webp";
+import vue from "../assets/img/vue.webp";
+import nuxt from "../assets/img/nuxt.webp";
+import node from "../assets/img/node.webp";
+import react from "../assets/img/react.webp";
 ---
 
 <Layout title="Welcome to Astro.">
-  <main></main>
+  <main
+    class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 md:grid-rows-4 gap-4 p-4 md:p-20 h-screen w-screen overflow-y-auto"
+  >
+    <Card class="md:col-span-3 md:row-span-2 lg:col-span-3 lg:row-span-2">
+      <span class="text-sm">Bienvenido</span>
+      <p class="text-xl">
+        Hola, soy <b>Francisco Blanco López</b>, un ingeniero en sistemas.
+      </p>
+      <div class="not-prose">
+        <a
+          class="btn btn-circle btn-ghost"
+          href="https://github.com/BlancoBv"
+          target="_blank"
+        >
+          <i class="bi bi-github text-4xl"></i>
+        </a>
+      </div>
+    </Card>
+    <Card
+      class="md:col-span-3 md:row-span-2 lg:col-span-1 lg:row-span-4 overflow-y-auto"
+    >
+      <h3>Acerca de mí</h3>
+      <p>
+        Soy ingeniero en sistemas, el área que mejor domino es la programación
+        web. Mis principales herramientas de trabajo son:
+      </p>
+      <ul class="menu bg-base-200 menu-horizontal rounded-box not-prose">
+        <li>
+          <a href="#">
+            <Image src={js} alt="Javascript logo" width={20} height={20} />
+            JavaScript</a
+          >
+        </li>
+        <li>
+          <a href="#">
+            <Image
+              src={react}
+              alt="React logo"
+              width={20}
+              height={20}
+            />React</a
+          >
+        </li>
+        <li>
+          <a href="#">
+            <Image src={vue} alt="Vue logo" width={20} height={20} />Vue</a
+          >
+        </li>
+        <li>
+          <a href="#">
+            <Image
+              src={astro}
+              alt="Astro logo"
+              width={20}
+              height={20}
+            />Astro</a
+          >
+        </li>
+        <li>
+          <a href="#">
+            <Image src={node} alt="Node logo" width={20} height={20} />Node js</a
+          >
+        </li>
+        <li>
+          <a href="#">
+            <Image src={nuxt} alt="Nuxt logo" width={20} height={20} />Nuxt</a
+          >
+        </li>
+      </ul>
+      <p>
+        Además cuento con habilidades en la administración de bases de datos,
+        redes computadoras y S.O.
+      </p>
+    </Card>
+    <Card class="lg:row-span-2 lg:col-span-2">
+      <h3>Contactame</h3>
+      <a href="mailto:dehara14@gmail.com" class="not-prose btn btn-ghost">
+        <i class="bi bi-envelope-fill"></i> dehara14@gmail.com
+      </a>
+    </Card>
+    <Card class="lg:col-span-1 lg:row-span-2 flex items-end justify-end">
+      <span class="text-sm">
+        Página creada con <a href="https://astro.build/" target="_blank"
+          >Astro</a
+        >.</span
+      ></Card
+    >
+    <!--     <Card colSpan={3} rowSpan={2}> 5 </Card>
+    <Card colSpan={3} rowSpan={2}> 6 </Card> -->
+  </main>
 </Layout>
