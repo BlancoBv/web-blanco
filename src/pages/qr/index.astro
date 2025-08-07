@@ -19,22 +19,16 @@ import Layout from "src/layouts/Layout.astro";
     "resultado"
   ) as HTMLParagraphElement;
 
-  function onResult(result: string) {
+  function onResult(result: QrScanner.ScanResult) {
     if (!result) {
       resultContainer.innerHTML = "Sin resultado";
-      return;
-    }
-    resultContainer.innerHTML = result;
+    } else resultContainer.innerHTML = result.data;
     console.log(result);
   }
 
-  const qrScanner = new QrScanner(
-    videoElement,
-    (result) => console.log("decoded qr code:", result),
-    {
-      /* your options or returnDetailedScanResult: true if you're not specifying any other options */
-    }
-  );
+  const qrScanner = new QrScanner(videoElement, onResult, {
+    onDecodeError() {},
+  });
   buttonScanear!.addEventListener("click", () => {
     console.log("cliccck");
     qrScanner.start();
