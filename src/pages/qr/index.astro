@@ -14,7 +14,7 @@ import Layout from "src/layouts/Layout.astro";
     "video-element"
   ) as HTMLVideoElement;
   const buttonScanear = document.getElementById("button-start");
-  const buttonStop = document.getElementById("button-start");
+  const buttonStop = document.getElementById("button-stop");
   const resultContainer = document.getElementById(
     "resultado"
   ) as HTMLParagraphElement;
@@ -30,13 +30,16 @@ import Layout from "src/layouts/Layout.astro";
 
   const qrScanner = new QrScanner(
     videoElement,
-    onResult
-    // No options provided. This will use the old api and is deprecated in the current version until next major version.
+    (result) => console.log("decoded qr code:", result),
+    {
+      /* your options or returnDetailedScanResult: true if you're not specifying any other options */
+    }
   );
-  buttonScanear?.addEventListener("click", () => {
+  buttonScanear!.addEventListener("click", () => {
+    console.log("cliccck");
     qrScanner.start();
   });
-  buttonStop?.addEventListener("click", () => {
+  buttonStop!.addEventListener("click", () => {
     qrScanner.stop();
   });
 </script>
