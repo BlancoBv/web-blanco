@@ -1,0 +1,42 @@
+---
+import Layout from "src/layouts/Layout.astro";
+---
+
+<Layout title="Scanner qr">
+  <video id="video-element"></video>
+  <button id="button-start">Scanear</button>
+  <button id="button-stop">Detener escaneo</button>
+  <p id="resultado"></p>
+</Layout>
+<script>
+  import QrScanner from "qr-scanner";
+  const videoElement = document.getElementById(
+    "video-element"
+  ) as HTMLVideoElement;
+  const buttonScanear = document.getElementById("button-start");
+  const buttonStop = document.getElementById("button-start");
+  const resultContainer = document.getElementById(
+    "resultado"
+  ) as HTMLParagraphElement;
+
+  function onResult(result: string) {
+    if (!result) {
+      resultContainer.innerHTML = "Sin resultado";
+      return;
+    }
+    resultContainer.innerHTML = result;
+    console.log(result);
+  }
+
+  const qrScanner = new QrScanner(
+    videoElement,
+    onResult
+    // No options provided. This will use the old api and is deprecated in the current version until next major version.
+  );
+  buttonScanear?.addEventListener("click", () => {
+    qrScanner.start();
+  });
+  buttonStop?.addEventListener("click", () => {
+    qrScanner.stop();
+  });
+</script>
