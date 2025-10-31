@@ -6,8 +6,10 @@ import LayoutCoppel from "../../layouts/Coppel.astro"
     <header>
     <h1>Mi cuenta</h1>
     <div class="header-icons">
-      <i class="bi bi-search"></i>
-      <i class="bi bi-cart"></i>
+      <img src="/img/coppel/lupa.jpg" />
+      <img src="/img/coppel/carrito.jpg" />
+      <!-- <i class="bi bi-search"></i>
+      <i class="bi bi-cart"></i> -->
     </div>
   </header>
 
@@ -22,48 +24,51 @@ import LayoutCoppel from "../../layouts/Coppel.astro"
 
     <div class="options">
       <a href="#" class="option">
-        <i class="bi bi-person-fill"></i>
+        <img src="/img/coppel/usuario.jpg" />
         <span>Mis datos</span>
-        <i class="bi bi-chevron-right"></i>
+        <img src="/img/coppel/caret.jpg" />
       </a>
 
       <a href="#" class="option">
-        <i class="bi bi-credit-card-2-back-fill"></i>
+        <img src="/img/coppel/credito.jpg" />
         <span>Crédito Coppel</span>
-        <i class="bi bi-chevron-right"></i>
+        <img src="/img/coppel/caret.jpg" />
       </a>
 
       <a href="#" class="option">
-        <i class="bi bi-truck"></i>
+        <img src="/img/coppel/envios.jpg" />
         <span>Mis pedidos</span>
-        <i class="bi bi-chevron-right"></i>
+        <img src="/img/coppel/caret.jpg" />
       </a>
 
       <a href="#" class="option">
-        <i class="bi bi-heart-fill"></i>
+        <img src="/img/coppel/favoritos.jpg" />
         <span>Mis favoritos</span>
-        <i class="bi bi-chevron-right"></i>
+        <img src="/img/coppel/caret.jpg" />
       </a>
     </div>
 
-    <button class="logout">Cerrar sesión</button>
+   <div class="logout-wrapper">
+    <div class="logout-divider"></div>
+     <button class="logout">Cerrar sesión</button>
+   </div>
   </main>
 
   <nav class="bottom-nav">
     <a href="#" class="nav-item">
-      <i class="bi bi-house-door-fill"></i>
+      <img src="/img/coppel/inicio.jpg" />
       <span>Inicio</span>
     </a>
     <a href="#" class="nav-item">
-      <i class="bi bi-grid-3x3-gap-fill"></i>
+      <img src="/img/coppel/departamentos.jpg" />
       <span>Departamentos</span>
     </a>
-    <a href="#" class="nav-item active">
-      <i class="bi bi-person-fill"></i>
+    <a href="#" class="nav-item">
+      <img src="/img/coppel/usuariog.jpg" />
       <span>Mi cuenta</span>
     </a>
     <a href="#" class="nav-item">
-      <i class="bi bi-list"></i>
+      <img src="/img/coppel/menu.jpg" />
       <span>Menú</span>
     </a>
   </nav>
@@ -102,9 +107,15 @@ body {
   min-height: 100vh;
 }
 
+img{
+  width: 30px;
+  height: 30px;
+}
+
 /* HEADER */
 header {
   display: flex;
+  flex-direction: column-reverse;
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem;
@@ -113,6 +124,14 @@ header {
 header h1 {
   font-size: 1.8rem;
   font-weight: 700;
+  width: 100%;
+}
+
+.header-icons{
+  display: flex;
+  justify-content: end;
+  width: 100%;
+  gap: 1rem;
 }
 
 .header-icons i {
@@ -165,7 +184,7 @@ header h1 {
   border: 1px solid #e5e5e5;
   border-radius: 1rem;
   margin: 0.5rem 1rem;
-  padding: 0.9rem 1.2rem;
+  padding: 0.8rem 1.2rem;
   text-decoration: none;
   color: #0b1b58;
   transition: background 0.2s ease;
@@ -188,9 +207,18 @@ header h1 {
 }
 
 /* LOGOUT BUTTON */
+.logout-wrapper{
+
+  padding: 1.2rem;
+  
+}
+.logout-divider{
+    border-top: 1px solid #e5e5e5;
+}
+
 .logout {
   display: block;
-  margin: 2rem auto;
+  margin: 0.5rem auto;
   background: none;
   border: none;
   color: #0b1b58;
