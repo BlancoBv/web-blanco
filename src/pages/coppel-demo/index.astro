@@ -63,8 +63,8 @@ import LayoutCoppel from "../../layouts/Coppel.astro"
       <img src="/img/coppel/departamentos.jpg" />
       <span>Departamentos</span>
     </a>
-    <a href="#" class="nav-item">
-      <img src="/img/coppel/usuariog.jpg" />
+    <a href="#" class="nav-item active">
+      <img src="/img/coppel/usuariog.png"/>
       <span>Mi cuenta</span>
     </a>
     <a href="#" class="nav-item">
@@ -82,7 +82,7 @@ import LayoutCoppel from "../../layouts/Coppel.astro"
       const containerName = document.getElementById('nombre') as HTMLElement;
       containerName.innerHTML = nombre.split("_").join(" ");
       const containerCorreo = document.getElementById('correo') as HTMLElement;
-      containerCorreo.innerHTML = correo;
+      containerCorreo.innerHTML = correo + "@gmail.com";
 
       const containerAvatar = document.getElementById('avatar') as HTMLElement;
       containerAvatar.innerHTML= nombre.split("_").reduce((a,b,index,array)=> {
@@ -255,12 +255,20 @@ header h1 {
 }
 
 .nav-item.active {
-  color: #0b1b58;
+  position: relative;
 }
 
-.nav-item.active i {
-  color: #0b1b58;
+.nav-item.active::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 65%;
+  top: 0;
+  background-color: #f3f3f3;
+  z-index: -1;
+  border-radius: 4rem;
 }
+
 
 </style>
 
