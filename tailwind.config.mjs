@@ -8,6 +8,6 @@ export default {
   },
   plugins: [daisyui, typography],
   daisyui: {
-    themes: ["synthwave"],
+    themes: ["synthwave", "light", "dark", "cupcake"],
   },
 };
