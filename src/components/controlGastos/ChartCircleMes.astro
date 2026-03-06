@@ -1,0 +1,84 @@
+<script>
+    import Chart from "chart.js/auto";
+    import moment from "moment";
+
+    let data: string | null = localStorage.getItem("data");
+
+    let gastos = 0;
+    let ingresos = 0;
+
+    const canva = document.getElementById(
+        "res-circle-mes",
+    ) as HTMLCanvasElement;
+
+    const date = moment();
+
+    if (data !== null) {
+        gastos = JSON.parse(data)
+            .gasto.filter(
+                (el: [string, number]) =>
+                    moment(el[0].split("T")[0]).format("YYYY-MM") ===
+                    date.format("YYYY-MM"),
+                "month",
+            )
+            .reduce((a: number, b: [string, number]) => a + b[1], 0);
+
+        ingresos = JSON.parse(data)
+            .ingreso.filter(
+                (el: [string, number]) =>
+                    moment(el[0].split("T")[0]).format("YYYY-MM") ===
+                    date.format("YYYY-MM"),
+                "month",
+            )
+            .reduce((a: number, b: [string, number]) => a + b[1], 0);
+    }
+
+    const chart = new Chart(canva, {
+        type: "pie",
+        data: {
+            labels: ["Gastos", "Ingresos"],
+            datasets: [
+                {
+                    data: [gastos, ingresos],
+                    backgroundColor: [
+                        "rgb(255, 99, 132)",
+                        "rgb(54, 162, 235)",
+                        "rgb(255, 205, 86)",
+                    ],
+                    hoverOffset: 4,
+                },
+            ],
+        },
+    });
+
+    window.addEventListener("local-storage-changed", (event) => {
+        data = (event as unknown as { detail: { storage: string } }).detail
+            .storage;
+
+        gastos = JSON.parse(data as string)
+            .gasto.filter(
+                (el: [string, number]) =>
+                    moment(el[0].split("T")[0]).format("YYYY-MM") ===
+                    date.format("YYYY-MM"),
+                "month",
+            )
+            .reduce((a: number, b: [string, number]) => a + b[1], 0);
+
+        ingresos = JSON.parse(data as string)
+            .ingreso.filter(
+                (el: [string, number]) =>
+                    moment(el[0].split("T")[0]).format("YYYY-MM") ===
+                    date.format("YYYY-MM"),
+                "month",
+            )
+            .reduce((a: number, b: [string, number]) => a + b[1], 0);
+
+        chart.data.datasets[0].data[0] = gastos;
+        chart.data.datasets[0].data[1] = ingresos;
+        chart.update();
+    });
+</script>
+
+<div class="size-80">
+    <canvas id="res-circle-mes" style="width: 100%; height:100%"></canvas>
+</div>

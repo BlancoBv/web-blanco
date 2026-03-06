@@ -1,0 +1,25 @@
+---
+import Layout from "src/layouts/ControlGastosLayout.astro";
+import WrapperInputs from "@components/controlGastos/WrapperInputs.vue";
+import ChartResumenMes from "@components/controlGastos/ChartCircleMes.astro";
+import ChartBarMes from "@components/controlGastos/ChartBarMes.astro";
+import ChartWrapper from "@components/controlGastos/ChartWrapper.astro";
+---
+
+<Layout>
+    <WrapperInputs client:only="vue">
+        <div slot="fallback" class="flex flex-col gap-4 mb-4">
+            <div class="w-full h-80 skeleton"></div>
+            <div class="w-full h-12 skeleton"></div>
+            <div class="w-full h-12 skeleton"></div>
+        </div>
+    </WrapperInputs>
+    <div class="flex flex-col gap-4 items-center">
+        <ChartWrapper title="Vista general del mes actual">
+            <ChartResumenMes />
+        </ChartWrapper>
+        <ChartWrapper title="Resumen por día del mes actual">
+            <ChartBarMes />
+        </ChartWrapper>
+    </div>
+</Layout>

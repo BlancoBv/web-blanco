@@ -1,0 +1,126 @@
+<script>
+    import Chart from "chart.js/auto";
+    import moment from "moment";
+
+    let data: string | null = localStorage.getItem("data");
+
+    let gastos: { [key: string]: number } = {};
+    let ingresos: { [key: string]: number } = {};
+
+    const canva = document.getElementById("res-bar-mes") as HTMLCanvasElement;
+
+    const date = moment();
+
+    if (data !== null) {
+        const tempGastos = JSON.parse(data).gasto.filter(
+            (el: [string, number]) =>
+                moment(el[0].split("T")[0]).format("YYYY-MM") ===
+                date.format("YYYY-MM"),
+            "month",
+        );
+        const tempIngresos = JSON.parse(data).ingreso.filter(
+            (el: [string, number]) =>
+                moment(el[0].split("T")[0]).format("YYYY-MM") ===
+                date.format("YYYY-MM"),
+            "month",
+        );
+
+        tempGastos.forEach((el: [string, number]) => {
+            const key = el[0].split("T")[0];
+
+            if (!gastos[key]) {
+                gastos[key] = el[1];
+            } else {
+                gastos[key] += el[1];
+            }
+        });
+
+        tempIngresos.forEach((el: [string, number]) => {
+            const key = el[0].split("T")[0];
+
+            if (!ingresos[key]) {
+                ingresos[key] = el[1];
+            } else {
+                ingresos[key] += el[1];
+            }
+        });
+    }
+
+    const chart = new Chart(canva, {
+        type: "bar",
+        data: {
+            datasets: [
+                {
+                    label: "Gastos",
+                    data: Object.keys(gastos).map((el) => ({
+                        x: el,
+                        y: gastos[el],
+                    })),
+                    borderWidth: 1,
+                },
+                {
+                    label: "Ingresos",
+                    data: Object.keys(ingresos).map((el) => ({
+                        x: el,
+                        y: ingresos[el],
+                    })),
+
+                    borderWidth: 1,
+                },
+            ],
+        },
+        options: { responsive: true },
+    });
+
+    window.addEventListener("local-storage-changed", (event) => {
+        data = (event as unknown as { detail: { storage: string } }).detail
+            .storage;
+
+        const tempGastos = JSON.parse(data).gasto.filter(
+            (el: [string, number]) =>
+                moment(el[0].split("T")[0]).format("YYYY-MM") ===
+                date.format("YYYY-MM"),
+            "month",
+        );
+        const tempIngresos = JSON.parse(data).ingreso.filter(
+            (el: [string, number]) =>
+                moment(el[0].split("T")[0]).format("YYYY-MM") ===
+                date.format("YYYY-MM"),
+            "month",
+        );
+
+        tempGastos.forEach((el: [string, number]) => {
+            const key = el[0].split("T")[0];
+
+            if (!gastos[key]) {
+                gastos[key] = el[1];
+            } else {
+                gastos[key] += el[1];
+            }
+        });
+
+        tempIngresos.forEach((el: [string, number]) => {
+            const key = el[0].split("T")[0];
+
+            if (!ingresos[key]) {
+                ingresos[key] = el[1];
+            } else {
+                ingresos[key] += el[1];
+            }
+        });
+
+        chart.data.datasets[0].data = Object.keys(gastos).map((el) => ({
+            x: el,
+            y: gastos[el],
+        }));
+        chart.data.datasets[1].data = Object.keys(ingresos).map((el) => ({
+            x: el,
+            y: gastos[el],
+        }));
+        chart.update();
+    });
+</script>
+
+<div class="size-80">
+    <canvas id="res-bar-mes" style="width: 100%; height:100%"></canvas>
+</div>

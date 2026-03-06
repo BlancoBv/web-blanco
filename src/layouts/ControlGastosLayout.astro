@@ -1,0 +1,94 @@
+---
+import "../assets/app.css";
+---
+
+<!doctype html>
+<html lang="es" data-theme="light">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" content="Astro description" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/webp" href="/img/astro.webp" />
+        <meta name="generator" content={Astro.generator} />
+        <title>Control de gastos</title>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        /><link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+    </head>
+    <body class="h-dvh">
+        <div class="navbar bg-base-100 shadow-sm h-16">
+            <div class="flex-1">
+                <a class="btn btn-ghost text-xl">Control de gastos</a>
+            </div>
+            <div class="flex-none">
+                <ul class="menu menu-horizontal px-1">
+                    <li><a href="/control-gastos">Inicio</a></li>
+                    <!-- <li>
+                        <details>
+                            <summary>Parent</summary>
+                            <ul class="bg-base-100 rounded-t-none p-2">
+                                <li><a>Link 1</a></li>
+                                <li><a>Link 2</a></li>
+                            </ul>
+                        </details>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+        <div
+            class="h-[calc(100dvh-64px)] overflow-y-auto p-4 overflow-x-hidden"
+        >
+            <slot />
+        </div>
+    </body>
+</html>
+<style is:global>
+    /* :root {
+    --accent: 136, 58, 234;
+    --accent-light: 224, 204, 250;
+    --accent-dark: 49, 10, 101;
+    --accent-gradient: linear-gradient(
+      45deg,
+      rgb(var(--accent)),
+      rgb(var(--accent-light)) 30%,
+      white 60%
+    );
+  } */
+    /*  html {
+    font-family: system-ui, sans-serif;
+    background: #13151a;
+    background-size: 224px;
+  } */
+    code {
+        font-family:
+            Menlo,
+            Monaco,
+            Lucida Console,
+            Liberation Mono,
+            DejaVu Sans Mono,
+            Bitstream Vera Sans Mono,
+            Courier New,
+            monospace;
+    }
+    body {
+        position: relative;
+    }
+</style>
