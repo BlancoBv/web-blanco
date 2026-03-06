@@ -37,9 +37,9 @@ const submit = () => {
     <form class="join w-full" @submit.prevent="submit">
         <label class="floating-label grow">
             <input v-model="value" type="number" step="0.01" min="1" required :placeholder="props.label.toUpperCase()"
-                class="input input-lg" />
+                class="input input-lg validator" />
             <span>{{ props.label.toUpperCase() }}</span>
         </label>
-        <button class="btn btn-primary btn-lg" type="submit">+</button>
+        <button class="btn btn-primary btn-lg" type="submit"><i class="bi bi-plus"></i></button>
     </form>
 </template>
