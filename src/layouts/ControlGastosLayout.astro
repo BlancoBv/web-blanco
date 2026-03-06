@@ -3,7 +3,7 @@ import "../assets/app.css";
 ---
 
 <!doctype html>
-<html lang="es" data-theme="light" >
+<html lang="es" data-theme="light">
     <head>
         <meta charset="UTF-8" />
         <meta name="description" content="Astro description" />
@@ -36,20 +36,19 @@ import "../assets/app.css";
     <body class="h-dvh">
         <div class="navbar bg-base-100 shadow-sm h-16">
             <div class="flex-1">
-                <a class="btn btn-ghost text-xl">Control de gastos</a>
+                <a href="/control-gastos" class="btn btn-ghost text"
+                    >Control de gastos</a
+                >
             </div>
             <div class="flex-none">
                 <ul class="menu menu-horizontal px-1">
-                    <li><a href="/control-gastos">Inicio</a></li>
-                    <!-- <li>
-                        <details>
-                            <summary>Parent</summary>
-                            <ul class="bg-base-100 rounded-t-none p-2">
-                                <li><a>Link 1</a></li>
-                                <li><a>Link 2</a></li>
-                            </ul>
-                        </details>
-                    </li> -->
+                    <li>
+                        <a href="/control-gastos/lista-mes">Registros del mes</a
+                        >
+                    </li>
+                    <li>
+                        <a href="#">Historico</a>
+                    </li>
                 </ul>
             </div>
         </div>
