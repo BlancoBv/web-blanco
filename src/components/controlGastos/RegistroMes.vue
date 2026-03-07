@@ -73,7 +73,7 @@ onMounted(() => {
                     <div class="text-xs uppercase font-semibold opacity-60"> {{
                         value[0].toString().split("T")[0] }}</div>
                 </div>
-                <button class="btn btn-square btn-ghost" @click="deleteElement(value[2], value[3])">
+                <button class="btn btn-square btn-ghost" @click="deleteElement(value[2], value.at(-1) as number)">
                     <i class="bi bi-trash"></i>
                 </button>
             </li>
