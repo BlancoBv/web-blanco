@@ -67,6 +67,6 @@ const submit = () => {
                 moment(fecha).format("LL")
             }}).
         </p>
-        <button class="btn btn-primary"><i class="bi bi-plus text-2xl"></i></button>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-plus text-2xl"></i></button>
     </form>
 </template>
