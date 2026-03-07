@@ -11,21 +11,30 @@
 
     const date = moment();
 
-    if (data !== null) {
-        const tempGastos = JSON.parse(data).gasto.filter(
-            (el: [string, number]) =>
-                moment(el[0].split("T")[0]).format("YYYY-MM") ===
-                date.format("YYYY-MM"),
-            "month",
-        );
-        const tempIngresos = JSON.parse(data).ingreso.filter(
-            (el: [string, number]) =>
-                moment(el[0].split("T")[0]).format("YYYY-MM") ===
-                date.format("YYYY-MM"),
-            "month",
-        );
+    type internStruc = [string, number, string, number];
 
-        tempGastos.forEach((el: [string, number]) => {
+    /* interface dataStorage {
+        gasto: internStruc;
+        ingreso: internStruc;
+    } */
+
+    const obtenerDatos = (
+        data: string,
+        tipo: "gasto" | "ingreso",
+    ): internStruc[] => {
+        return JSON.parse(data)[tipo].filter(
+            (el: [string, number]) =>
+                moment(el[0].split("T")[0]).format("YYYY-MM") ===
+                date.format("YYYY-MM"),
+            "month",
+        );
+    };
+
+    if (data !== null) {
+        const tempGastos = obtenerDatos(data, "gasto");
+        const tempIngresos = obtenerDatos(data, "ingreso");
+
+        tempGastos.forEach((el) => {
             const key = el[0].split("T")[0];
 
             if (!gastos[key]) {
@@ -35,7 +44,7 @@
             }
         });
 
-        tempIngresos.forEach((el: [string, number]) => {
+        tempIngresos.forEach((el) => {
             const key = el[0].split("T")[0];
 
             if (!ingresos[key]) {
@@ -57,6 +66,8 @@
                         y: gastos[el],
                     })),
                     borderWidth: 1,
+                    backgroundColor: "#f87171",
+                    borderColor: "#f87171",
                 },
                 {
                     label: "Ingresos",
@@ -64,8 +75,9 @@
                         x: el,
                         y: ingresos[el],
                     })),
-
                     borderWidth: 1,
+                    backgroundColor: "#4ade80",
+                    borderColor: "#4ade80",
                 },
             ],
         },
@@ -75,23 +87,16 @@
     });
 
     window.addEventListener("local-storage-changed", (event) => {
-        data = (event as unknown as { detail: { storage: string } }).detail
-            .storage;
+        data = localStorage.getItem("data") as string;
 
-        const tempGastos = JSON.parse(data).gasto.filter(
-            (el: [string, number]) =>
-                moment(el[0].split("T")[0]).format("YYYY-MM") ===
-                date.format("YYYY-MM"),
-            "month",
-        );
-        const tempIngresos = JSON.parse(data).ingreso.filter(
-            (el: [string, number]) =>
-                moment(el[0].split("T")[0]).format("YYYY-MM") ===
-                date.format("YYYY-MM"),
-            "month",
-        );
+        const tempGastos = obtenerDatos(data, "gasto");
+        const tempIngresos = obtenerDatos(data, "ingreso");
 
-        tempGastos.forEach((el: [string, number]) => {
+        //reiniciar gastos e ingresos
+        gastos = {};
+        ingresos = {};
+
+        tempGastos.forEach((el) => {
             const key = el[0].split("T")[0];
 
             if (!gastos[key]) {
@@ -101,7 +106,7 @@
             }
         });
 
-        tempIngresos.forEach((el: [string, number]) => {
+        tempIngresos.forEach((el) => {
             const key = el[0].split("T")[0];
 
             if (!ingresos[key]) {
@@ -111,14 +116,29 @@
             }
         });
 
-        chart.data.datasets[0].data = Object.keys(gastos).map((el) => ({
-            x: el,
-            y: gastos[el],
-        }));
-        chart.data.datasets[1].data = Object.keys(ingresos).map((el) => ({
-            x: el,
-            y: gastos[el],
-        }));
+        chart.data.datasets = [
+            {
+                label: "Gastos",
+                data: Object.keys(gastos).map((el) => ({
+                    x: el,
+                    y: gastos[el],
+                })),
+                borderWidth: 1,
+                backgroundColor: "#f87171",
+                borderColor: "#f87171",
+            },
+            {
+                label: "Ingresos",
+                data: Object.keys(ingresos).map((el) => ({
+                    x: el,
+                    y: ingresos[el],
+                })),
+                borderWidth: 1,
+                backgroundColor: "#4ade80",
+                borderColor: "#4ade80",
+            },
+        ];
+
         chart.update();
     });
 </script>

@@ -4,6 +4,7 @@ import WrapperInputs from "@components/controlGastos/WrapperInputs.vue";
 import ChartResumenMes from "@components/controlGastos/ChartCircleMes.astro";
 import ChartBarMes from "@components/controlGastos/ChartBarMes.astro";
 import ChartWrapper from "@components/controlGastos/ChartWrapper.astro";
+import ChartBarCategoriaMes from "@components/controlGastos/ChartBarCategoriaMes.astro";
 ---
 
 <Layout>
@@ -21,6 +22,9 @@ import ChartWrapper from "@components/controlGastos/ChartWrapper.astro";
         </ChartWrapper>
         <ChartWrapper title="Resumen por día del mes actual">
             <ChartBarMes />
+        </ChartWrapper>
+        <ChartWrapper title="Resumen de gastos por categoría del mes actual">
+            <ChartBarCategoriaMes />
         </ChartWrapper>
     </div>
 </Layout>

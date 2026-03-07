@@ -1,0 +1,20 @@
+export default {
+    1: { "id": 1, "nombre": "Hogar" },
+    2: { "id": 2, "nombre": "Alimentacion" },
+    3: { "id": 3, "nombre": "Transporte" },
+    4: { "id": 4, "nombre": "Servicios" },
+    5: { "id": 5, "nombre": "Salud" },
+    6: { "id": 6, "nombre": "Educacion" },
+    7: { "id": 7, "nombre": "Compras personales" },
+    8: { "id": 8, "nombre": "Entretenimiento" },
+    9: { "id": 9, "nombre": "Finanzas" },
+    10: { "id": 10, "nombre": "Viajes" },
+    11: { "id": 11, "nombre": "Mascotas" },
+    12: { "id": 12, "nombre": "Regalos" },
+    13: { "id": 13, "nombre": "Donaciones" },
+    14: { "id": 14, "nombre": "Tecnologia" },
+    15: { "id": 15, "nombre": "Cuidado personal" },
+    16: { "id": 16, "nombre": "Impuestos" },
+    17: { "id": 17, "nombre": "Gastos imprevistos" },
+    18: { "id": 18, "nombre": "Otros" }
+} satisfies Record<string, { id: number, nombre: string }>

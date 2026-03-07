@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import "cally";
-import moment from "moment";
-import { ref } from "vue";
 
 
 const model = defineModel<string>()

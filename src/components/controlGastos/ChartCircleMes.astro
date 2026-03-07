@@ -41,8 +41,8 @@
                 {
                     data: [gastos, ingresos],
                     backgroundColor: [
-                        "rgb(255, 99, 132)",
-                        "rgb(54, 162, 235)",
+                        "#f87171",
+                        "#4ade80",
                         "rgb(255, 205, 86)",
                     ],
                     hoverOffset: 4,
@@ -73,8 +73,7 @@
             )
             .reduce((a: number, b: [string, number]) => a + b[1], 0);
 
-        chart.data.datasets[0].data[0] = gastos;
-        chart.data.datasets[0].data[1] = ingresos;
+        chart.data.datasets[0].data = [gastos, ingresos];
         chart.update();
     });
 </script>
