@@ -49,6 +49,10 @@
                 },
             ],
         },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+        },
     });
 
     window.addEventListener("local-storage-changed", (event) => {
@@ -78,6 +82,6 @@
     });
 </script>
 
-<div class="size-80">
-    <canvas id="res-circle-mes" style="width: 100%; height:100%"></canvas>
+<div class="size-full">
+    <canvas id="res-circle-mes"></canvas>
 </div>
