@@ -1,6 +1,7 @@
 <script>
     import Chart from "chart.js/auto";
     import moment from "moment";
+    import _ from "lodash";
 
     let data: string | null = localStorage.getItem("data");
 
@@ -53,6 +54,8 @@
                 ingresos[key] += el[1];
             }
         });
+
+        gastos = _(gastos).toPairs().sortBy(0).fromPairs().value();
     }
 
     const chart = new Chart(canva, {
@@ -86,7 +89,7 @@
         },
     });
 
-    window.addEventListener("local-storage-changed", (event) => {
+    window.addEventListener("local-storage-changed", (_ev) => {
         data = localStorage.getItem("data") as string;
 
         const tempGastos = obtenerDatos(data, "gasto");
@@ -115,6 +118,8 @@
                 ingresos[key] += el[1];
             }
         });
+
+        gastos = _(gastos).toPairs().sortBy(0).fromPairs().value(); //ordenar objeto
 
         chart.data.datasets = [
             {
