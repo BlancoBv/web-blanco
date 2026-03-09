@@ -34,7 +34,7 @@
     }
 
     const chart = new Chart(canva, {
-        type: "pie",
+        type: "doughnut",
         data: {
             labels: ["Gastos", "Ingresos"],
             datasets: [
@@ -52,6 +52,8 @@
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            circumference: 180,
+            rotation: 270,
         },
     });
 
