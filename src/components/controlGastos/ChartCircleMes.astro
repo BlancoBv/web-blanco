@@ -1,39 +1,64 @@
 <script>
-    import Chart from "chart.js/auto";
     import moment from "moment";
+    import createChart from "src/utils/createChart";
 
-    let data: string | null = localStorage.getItem("data");
+    document.addEventListener("astro:page-load", () => {
+        if (!(window.location.hash === "#home")) {
+            return;
+        }
 
-    let gastos = 0;
-    let ingresos = 0;
+        let data: string | null = localStorage.getItem("data");
 
-    const canva = document.getElementById(
-        "res-circle-mes",
-    ) as HTMLCanvasElement;
+        let gastos = 0;
+        let ingresos = 0;
 
-    const date = moment();
+        const date = moment();
 
-    if (data !== null) {
-        gastos = JSON.parse(data)
-            .gasto.filter(
-                (el: [string, number]) =>
-                    moment(el[0].split("T")[0]).format("YYYY-MM") ===
-                    date.format("YYYY-MM"),
-                "month",
-            )
-            .reduce((a: number, b: [string, number]) => a + b[1], 0);
+        if (data !== null) {
+            gastos = JSON.parse(data)
+                .gasto.filter(
+                    (el: [string, number]) =>
+                        moment(el[0].split("T")[0]).format("YYYY-MM") ===
+                        date.format("YYYY-MM"),
+                    "month",
+                )
+                .reduce((a: number, b: [string, number]) => a + b[1], 0);
 
-        ingresos = JSON.parse(data)
-            .ingreso.filter(
-                (el: [string, number]) =>
-                    moment(el[0].split("T")[0]).format("YYYY-MM") ===
-                    date.format("YYYY-MM"),
-                "month",
-            )
-            .reduce((a: number, b: [string, number]) => a + b[1], 0);
-    }
+            ingresos = JSON.parse(data)
+                .ingreso.filter(
+                    (el: [string, number]) =>
+                        moment(el[0].split("T")[0]).format("YYYY-MM") ===
+                        date.format("YYYY-MM"),
+                    "month",
+                )
+                .reduce((a: number, b: [string, number]) => a + b[1], 0);
+        }
 
-    const chart = new Chart(canva, {
+        const chart = createChart(
+            "doughnut",
+            "res-circle-mes",
+            {
+                labels: ["Gastos", "Ingresos"],
+                datasets: [
+                    {
+                        data: [gastos, ingresos],
+                        backgroundColor: [
+                            "#f87171",
+                            "#4ade80",
+                            "rgb(255, 205, 86)",
+                        ],
+                        hoverOffset: 4,
+                    },
+                ],
+            },
+            {
+                circumference: 180,
+                rotation: 270,
+            },
+        );
+    });
+
+    /*     const chart = new Chart(canva, {
         type: "doughnut",
         data: {
             labels: ["Gastos", "Ingresos"],
@@ -55,9 +80,9 @@
             circumference: 180,
             rotation: 270,
         },
-    });
+    }); */
 
-    window.addEventListener("local-storage-changed", (event) => {
+    /*     window.addEventListener("local-storage-changed", (event) => {
         data = (event as unknown as { detail: { storage: string } }).detail
             .storage;
 
@@ -81,7 +106,7 @@
 
         chart.data.datasets[0].data = [gastos, ingresos];
         chart.update();
-    });
+    }); */
 </script>
 
 <div class="size-full">

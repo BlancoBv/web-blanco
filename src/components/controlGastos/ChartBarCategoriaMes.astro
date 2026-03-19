@@ -1,64 +1,61 @@
 <script>
-    import { number, undefined } from "astro:schema";
-    import Chart from "chart.js/auto";
     import moment from "moment";
     import categorias from "src/utils/categorias";
+    import createChart from "src/utils/createChart";
 
-    let data: string | null = localStorage.getItem("data");
+    document.addEventListener("astro:page-load", () => {
+        if (!(window.location.hash === "#home")) {
+            return;
+        }
 
-    let finalData: { [key: string]: number } = {};
-    let ingresos: { [key: string]: number } = {};
+        let data: string | null = localStorage.getItem("data");
 
-    const canva = document.getElementById(
-        "res-bar-mes-categoria",
-    ) as HTMLCanvasElement;
+        let finalData: { [key: string]: number } = {};
 
-    const date = moment();
+        const date = moment();
 
-    type internStruc = [string, number, string, number];
+        type internStruc = [string, number, string, number];
 
-    /* interface dataStorage {
+        /* interface dataStorage {
         gasto: internStruc;
         ingreso: internStruc;
     } */
 
-    const obtenerDatos = (data: string) => {
-        const xd = (JSON.parse(data).gasto as internStruc[]).filter(
-            (el) =>
-                moment((el[0] as string).split("T")[0]).format("YYYY-MM") ===
-                date.format("YYYY-MM"),
-        );
-        console.log({ xd, data: Object.values(JSON.parse(data)).flat() });
-        return xd;
-    };
+        const obtenerDatos = (data: string) => {
+            const xd = (JSON.parse(data).gasto as internStruc[]).filter(
+                (el) =>
+                    moment((el[0] as string).split("T")[0]).format(
+                        "YYYY-MM",
+                    ) === date.format("YYYY-MM"),
+            );
+            return xd;
+        };
 
-    if (data !== null) {
-        const tempData = obtenerDatos(data);
+        if (data !== null) {
+            const tempData = obtenerDatos(data);
 
-        tempData.forEach((el) => {
-            let categoriaId: any = el[3];
-            let nombreCategoria = "Indefinido";
+            tempData.forEach((el) => {
+                let categoriaId: any = el[3];
+                let nombreCategoria = "Indefinido";
 
-            if (categoriaId !== undefined) {
-                const categoria =
-                    categorias[categoriaId as keyof typeof categorias];
+                if (categoriaId !== undefined) {
+                    const categoria =
+                        categorias[categoriaId as keyof typeof categorias];
 
-                if (categoria) {
-                    nombreCategoria = categoria.nombre;
+                    if (categoria) {
+                        nombreCategoria = categoria.nombre;
+                    }
                 }
-            }
 
-            if (!finalData[nombreCategoria]) {
-                finalData[nombreCategoria] = el[1];
-            } else {
-                finalData[nombreCategoria] += el[1];
-            }
-        });
-    }
+                if (!finalData[nombreCategoria]) {
+                    finalData[nombreCategoria] = el[1];
+                } else {
+                    finalData[nombreCategoria] += el[1];
+                }
+            });
+        }
 
-    const chart = new Chart(canva, {
-        type: "bar",
-        data: {
+        const chart = createChart("bar", "res-bar-mes-categoria", {
             datasets: [
                 {
                     label: "Categorías",
@@ -78,65 +75,89 @@
                     ],
                 },
             ],
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-            },
-        },
-    });
-
-    window.addEventListener("local-storage-changed", (event) => {
-        data = localStorage.getItem("data") as string;
-
-        const tempData = obtenerDatos(data);
-
-        //reiniciar gastos e ingresos
-        finalData = {};
-        ingresos = {};
-
-        tempData.forEach((el) => {
-            let categoriaId: any = el[3];
-            let nombreCategoria = "Indefinido";
-
-            if (categoriaId !== undefined && categoriaId !== "") {
-                const categoria =
-                    categorias[categoriaId as keyof typeof categorias];
-
-                if (categoria) {
-                    nombreCategoria = categoria.nombre;
-                }
-            }
-
-            if (!finalData[nombreCategoria]) {
-                finalData[nombreCategoria] = el[1];
-            } else {
-                finalData[nombreCategoria] += el[1];
-            }
         });
-        chart.data.datasets = [
-            {
-                label: "Gastos",
-                data: Object.keys(finalData).map((el) => ({
-                    x: el,
-                    y: finalData[el],
-                })),
-                borderWidth: 1,
-                backgroundColor: [
-                    "rgba(255, 99, 132, 1)",
-                    "rgba(255, 159, 64, 1)",
-                    "rgba(255, 205, 86, 1)",
-                    "rgba(75, 192, 192, 1)",
-                    "rgba(54, 162, 235, 1)",
-                    "rgba(153, 102, 255, 1)",
-                    "rgba(201, 203, 207, 1)",
+
+        /* const chart = new Chart(canva, {
+            type: "bar",
+            data: {
+                datasets: [
+                    {
+                        label: "Categorías",
+                        data: Object.keys(finalData).map((el) => ({
+                            x: el,
+                            y: finalData[el],
+                        })),
+                        borderWidth: 1,
+                        backgroundColor: [
+                            "rgba(255, 99, 132, 1)",
+                            "rgba(255, 159, 64, 1)",
+                            "rgba(255, 205, 86, 1)",
+                            "rgba(75, 192, 192, 1)",
+                            "rgba(54, 162, 235, 1)",
+                            "rgba(153, 102, 255, 1)",
+                            "rgba(201, 203, 207, 1)",
+                        ],
+                    },
                 ],
             },
-        ];
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                },
+            },
+        }); */
 
-        chart.update();
+        /*         window.addEventListener("local-storage-changed", (event) => {
+            data = localStorage.getItem("data") as string;
+
+            const tempData = obtenerDatos(data);
+
+            //reiniciar gastos e ingresos
+            finalData = {};
+            ingresos = {};
+
+            tempData.forEach((el) => {
+                let categoriaId: any = el[3];
+                let nombreCategoria = "Indefinido";
+
+                if (categoriaId !== undefined && categoriaId !== "") {
+                    const categoria =
+                        categorias[categoriaId as keyof typeof categorias];
+
+                    if (categoria) {
+                        nombreCategoria = categoria.nombre;
+                    }
+                }
+
+                if (!finalData[nombreCategoria]) {
+                    finalData[nombreCategoria] = el[1];
+                } else {
+                    finalData[nombreCategoria] += el[1];
+                }
+            });
+
+            chart.updateChartDatasets([
+                {
+                    label: "Gastos",
+                    data: Object.keys(finalData).map((el) => ({
+                        x: el,
+                        y: finalData[el],
+                    })),
+                    borderWidth: 1,
+                    backgroundColor: [
+                        "rgba(255, 99, 132, 1)",
+                        "rgba(255, 159, 64, 1)",
+                        "rgba(255, 205, 86, 1)",
+                        "rgba(75, 192, 192, 1)",
+                        "rgba(54, 162, 235, 1)",
+                        "rgba(153, 102, 255, 1)",
+                        "rgba(201, 203, 207, 1)",
+                    ],
+                },
+            ]);
+        }); */
     });
 </script>
 

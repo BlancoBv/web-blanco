@@ -1,66 +1,61 @@
 <script>
-    import Chart from "chart.js/auto";
     import moment from "moment";
     import _ from "lodash";
+    import createChart from "src/utils/createChart";
 
-    let data: string | null = localStorage.getItem("data");
+    document.addEventListener("astro:page-load", () => {
+        if (!(window.location.hash === "#home")) {
+            return;
+        }
 
-    let gastos: { [key: string]: number } = {};
-    let ingresos: { [key: string]: number } = {};
+        let data: string | null = localStorage.getItem("data");
 
-    const canva = document.getElementById("res-bar-mes") as HTMLCanvasElement;
+        let gastos: { [key: string]: number } = {};
+        let ingresos: { [key: string]: number } = {};
 
-    const date = moment();
+        const date = moment();
 
-    type internStruc = [string, number, string, number];
+        type internStruc = [string, number, string, number];
 
-    /* interface dataStorage {
-        gasto: internStruc;
-        ingreso: internStruc;
-    } */
+        const obtenerDatos = (
+            data: string,
+            tipo: "gasto" | "ingreso",
+        ): internStruc[] => {
+            return JSON.parse(data)[tipo].filter(
+                (el: [string, number]) =>
+                    moment(el[0].split("T")[0]).format("YYYY-MM") ===
+                    date.format("YYYY-MM"),
+                "month",
+            );
+        };
 
-    const obtenerDatos = (
-        data: string,
-        tipo: "gasto" | "ingreso",
-    ): internStruc[] => {
-        return JSON.parse(data)[tipo].filter(
-            (el: [string, number]) =>
-                moment(el[0].split("T")[0]).format("YYYY-MM") ===
-                date.format("YYYY-MM"),
-            "month",
-        );
-    };
+        if (data !== null) {
+            const tempGastos = obtenerDatos(data, "gasto");
+            const tempIngresos = obtenerDatos(data, "ingreso");
 
-    if (data !== null) {
-        const tempGastos = obtenerDatos(data, "gasto");
-        const tempIngresos = obtenerDatos(data, "ingreso");
+            tempGastos.forEach((el) => {
+                const key = el[0].split("T")[0];
 
-        tempGastos.forEach((el) => {
-            const key = el[0].split("T")[0];
+                if (!gastos[key]) {
+                    gastos[key] = el[1];
+                } else {
+                    gastos[key] += el[1];
+                }
+            });
 
-            if (!gastos[key]) {
-                gastos[key] = el[1];
-            } else {
-                gastos[key] += el[1];
-            }
-        });
+            tempIngresos.forEach((el) => {
+                const key = el[0].split("T")[0];
 
-        tempIngresos.forEach((el) => {
-            const key = el[0].split("T")[0];
+                if (!ingresos[key]) {
+                    ingresos[key] = el[1];
+                } else {
+                    ingresos[key] += el[1];
+                }
+            });
 
-            if (!ingresos[key]) {
-                ingresos[key] = el[1];
-            } else {
-                ingresos[key] += el[1];
-            }
-        });
-
-        gastos = _(gastos).toPairs().sortBy(0).fromPairs().value();
-    }
-
-    const chart = new Chart(canva, {
-        type: "bar",
-        data: {
+            gastos = _(gastos).toPairs().sortBy(0).fromPairs().value();
+        }
+        const chart = createChart("bar", "res-bar-mes", {
             datasets: [
                 {
                     label: "Gastos",
@@ -83,14 +78,10 @@
                     borderColor: "#4ade80",
                 },
             ],
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-        },
+        });
     });
 
-    window.addEventListener("local-storage-changed", (_ev) => {
+    /* window.addEventListener("local-storage-changed", (_ev) => {
         data = localStorage.getItem("data") as string;
 
         const tempGastos = obtenerDatos(data, "gasto");
@@ -146,7 +137,7 @@
         ];
 
         chart.update();
-    });
+    }); */
 </script>
 
 <div class="size-full">

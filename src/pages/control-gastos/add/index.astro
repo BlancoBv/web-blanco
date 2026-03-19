@@ -1,0 +1,15 @@
+---
+import Layout from "src/layouts/ControlGastosLayout.astro";
+import WrapperInputs from "@components/controlGastos/WrapperInputs.vue";
+---
+
+<Layout url="add">
+    <WrapperInputs client:only="vue">
+        <div slot="fallback" class="flex flex-col gap-4 mb-4">
+            <div class="w-full h-80 skeleton"></div>
+            <div class="w-full h-12 skeleton"></div>
+            <div class="w-full h-12 skeleton"></div>
+            <div class="w-full h-8 skeleton"></div>
+        </div>
+    </WrapperInputs>
+</Layout>

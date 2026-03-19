@@ -2,13 +2,14 @@
 import moment from 'moment';
 import { computed, onMounted, ref } from 'vue';
 import categorias from 'src/utils/categorias';
+import _ from 'lodash';
 
 const isMounted = ref<boolean>(false)
 const gastos = ref<[string, number][]>([])
 const ingresos = ref<[string, number][]>([])
 
 const lista = computed<[string, number, string, number][]>(() => {
-    return [...gastos.value.map((el, index) => [...el, "gasto", index]), ...ingresos.value.map((el, index) => [...el, "ingreso", index])] as [string, number, string, number][]
+    return _.sortBy([...gastos.value.map((el, index) => [...el, "gasto", index]), ...ingresos.value.map((el, index) => [...el, "ingreso", index])], item => item[0]) as [string, number, string, number][]
 })
 const date = moment()
 
@@ -63,9 +64,7 @@ onMounted(() => {
     </template>
     <template v-else>
         <ul class="list bg-base-100 rounded-box shadow-md">
-
             <li class="p-4 pb-2 text-xs opacity-60 tracking-wide">Todos los registros del mes actual</li>
-
             <li class="list-row" v-for="(value, index) in lista">
                 <div class="text-4xl">
                     <template v-if="value[2] === 'gasto'">

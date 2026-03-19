@@ -1,6 +1,7 @@
 {
     "name": "Control de gastos",
     "short_name": "Control de gastos",
+    "start_url": "https://programacion-blanco.com/control-gastos#home",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
