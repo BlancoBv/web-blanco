@@ -1,87 +1,92 @@
 <script>
-    import moment from "moment";
-    import _ from "lodash";
-    import createChart from "src/utils/createChart";
+  import moment from "moment";
+  import _ from "lodash";
+  import createChart from "src/utils/createChart";
 
-    document.addEventListener("astro:page-load", () => {
-        if (!(window.location.hash === "#home")) {
-            return;
+  document.addEventListener("astro:page-load", () => {
+    if (!(window.location.hash === "#home")) {
+      return;
+    }
+
+    const styles = getComputedStyle(document.documentElement);
+
+    const errorColor = styles.getPropertyValue("--color-error").trim();
+    const successColor = styles.getPropertyValue("--color-success").trim();
+
+    let data: string | null = localStorage.getItem("data");
+
+    let gastos: { [key: string]: number } = {};
+    let ingresos: { [key: string]: number } = {};
+
+    const date = moment();
+
+    type internStruc = [string, number, string, number];
+
+    const obtenerDatos = (
+      data: string,
+      tipo: "gasto" | "ingreso",
+    ): internStruc[] => {
+      return JSON.parse(data)[tipo].filter(
+        (el: [string, number]) =>
+          moment(el[0].split("T")[0]).format("YYYY-MM") ===
+          date.format("YYYY-MM"),
+        "month",
+      );
+    };
+
+    if (data !== null) {
+      const tempGastos = obtenerDatos(data, "gasto");
+      const tempIngresos = obtenerDatos(data, "ingreso");
+
+      tempGastos.forEach((el) => {
+        const key = el[0].split("T")[0];
+
+        if (!gastos[key]) {
+          gastos[key] = el[1];
+        } else {
+          gastos[key] += el[1];
         }
+      });
 
-        let data: string | null = localStorage.getItem("data");
+      tempIngresos.forEach((el) => {
+        const key = el[0].split("T")[0];
 
-        let gastos: { [key: string]: number } = {};
-        let ingresos: { [key: string]: number } = {};
-
-        const date = moment();
-
-        type internStruc = [string, number, string, number];
-
-        const obtenerDatos = (
-            data: string,
-            tipo: "gasto" | "ingreso",
-        ): internStruc[] => {
-            return JSON.parse(data)[tipo].filter(
-                (el: [string, number]) =>
-                    moment(el[0].split("T")[0]).format("YYYY-MM") ===
-                    date.format("YYYY-MM"),
-                "month",
-            );
-        };
-
-        if (data !== null) {
-            const tempGastos = obtenerDatos(data, "gasto");
-            const tempIngresos = obtenerDatos(data, "ingreso");
-
-            tempGastos.forEach((el) => {
-                const key = el[0].split("T")[0];
-
-                if (!gastos[key]) {
-                    gastos[key] = el[1];
-                } else {
-                    gastos[key] += el[1];
-                }
-            });
-
-            tempIngresos.forEach((el) => {
-                const key = el[0].split("T")[0];
-
-                if (!ingresos[key]) {
-                    ingresos[key] = el[1];
-                } else {
-                    ingresos[key] += el[1];
-                }
-            });
-
-            gastos = _(gastos).toPairs().sortBy(0).fromPairs().value();
+        if (!ingresos[key]) {
+          ingresos[key] = el[1];
+        } else {
+          ingresos[key] += el[1];
         }
-        const chart = createChart("bar", "res-bar-mes", {
-            datasets: [
-                {
-                    label: "Gastos",
-                    data: Object.keys(gastos).map((el) => ({
-                        x: el,
-                        y: gastos[el],
-                    })),
-                    borderWidth: 1,
-                    backgroundColor: "#f87171",
-                    borderColor: "#f87171",
-                },
-                {
-                    label: "Ingresos",
-                    data: Object.keys(ingresos).map((el) => ({
-                        x: el,
-                        y: ingresos[el],
-                    })),
-                    borderWidth: 1,
-                    backgroundColor: "#4ade80",
-                    borderColor: "#4ade80",
-                },
-            ],
-        });
+      });
+
+      gastos = _(gastos).toPairs().sortBy(0).fromPairs().value();
+    }
+    const chart = createChart("bar", "res-bar-mes", {
+      datasets: [
+        {
+          label: "Gastos",
+          data: Object.keys(gastos).map((el) => ({
+            x: el,
+            y: gastos[el],
+          })),
+          borderWidth: 1,
+          backgroundColor: errorColor,
+          borderColor: errorColor,
+        },
+        {
+          label: "Ingresos",
+          data: Object.keys(ingresos).map((el) => ({
+            x: el,
+            y: ingresos[el],
+          })),
+          borderWidth: 1,
+          backgroundColor: successColor,
+          borderColor: successColor,
+        },
+      ],
     });
+  });
 
-    /* window.addEventListener("local-storage-changed", (_ev) => {
+  /* window.addEventListener("local-storage-changed", (_ev) => {
         data = localStorage.getItem("data") as string;
 
         const tempGastos = obtenerDatos(data, "gasto");
@@ -141,5 +146,5 @@
 </script>
 
 <div class="size-full">
-    <canvas id="res-bar-mes"></canvas>
+  <canvas id="res-bar-mes" class="skeleton size-full"></canvas>
 </div>

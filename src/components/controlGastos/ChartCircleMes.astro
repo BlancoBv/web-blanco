@@ -1,114 +1,67 @@
 <script>
-    import moment from "moment";
-    import createChart from "src/utils/createChart";
+  import { plugins } from "chart.js";
+  import moment from "moment";
+  import createChart from "src/utils/createChart";
 
-    document.addEventListener("astro:page-load", () => {
-        if (!(window.location.hash === "#home")) {
-            return;
-        }
+  document.addEventListener("astro:page-load", () => {
+    if (!(window.location.hash === "#home")) {
+      return;
+    }
 
-        let data: string | null = localStorage.getItem("data");
+    const styles = getComputedStyle(document.documentElement);
 
-        let gastos = 0;
-        let ingresos = 0;
+    const errorColor = styles.getPropertyValue("--color-error").trim();
+    const successColor = styles.getPropertyValue("--color-success").trim();
 
-        const date = moment();
+    let data: string | null = localStorage.getItem("data");
 
-        if (data !== null) {
-            gastos = JSON.parse(data)
-                .gasto.filter(
-                    (el: [string, number]) =>
-                        moment(el[0].split("T")[0]).format("YYYY-MM") ===
-                        date.format("YYYY-MM"),
-                    "month",
-                )
-                .reduce((a: number, b: [string, number]) => a + b[1], 0);
+    let gastos = 0;
+    let ingresos = 0;
 
-            ingresos = JSON.parse(data)
-                .ingreso.filter(
-                    (el: [string, number]) =>
-                        moment(el[0].split("T")[0]).format("YYYY-MM") ===
-                        date.format("YYYY-MM"),
-                    "month",
-                )
-                .reduce((a: number, b: [string, number]) => a + b[1], 0);
-        }
+    const date = moment();
 
-        const chart = createChart(
-            "doughnut",
-            "res-circle-mes",
-            {
-                labels: ["Gastos", "Ingresos"],
-                datasets: [
-                    {
-                        data: [gastos, ingresos],
-                        backgroundColor: [
-                            "#f87171",
-                            "#4ade80",
-                            "rgb(255, 205, 86)",
-                        ],
-                        hoverOffset: 4,
-                    },
-                ],
-            },
-            {
-                circumference: 180,
-                rotation: 270,
-            },
-        );
-    });
+    if (data !== null) {
+      gastos = JSON.parse(data)
+        .gasto.filter(
+          (el: [string, number]) =>
+            moment(el[0].split("T")[0]).format("YYYY-MM") ===
+            date.format("YYYY-MM"),
+          "month",
+        )
+        .reduce((a: number, b: [string, number]) => a + b[1], 0);
 
-    /*     const chart = new Chart(canva, {
-        type: "doughnut",
-        data: {
-            labels: ["Gastos", "Ingresos"],
-            datasets: [
-                {
-                    data: [gastos, ingresos],
-                    backgroundColor: [
-                        "#f87171",
-                        "#4ade80",
-                        "rgb(255, 205, 86)",
-                    ],
-                    hoverOffset: 4,
-                },
-            ],
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            circumference: 180,
-            rotation: 270,
-        },
-    }); */
+      ingresos = JSON.parse(data)
+        .ingreso.filter(
+          (el: [string, number]) =>
+            moment(el[0].split("T")[0]).format("YYYY-MM") ===
+            date.format("YYYY-MM"),
+          "month",
+        )
+        .reduce((a: number, b: [string, number]) => a + b[1], 0);
+    }
 
-    /*     window.addEventListener("local-storage-changed", (event) => {
-        data = (event as unknown as { detail: { storage: string } }).detail
-            .storage;
-
-        gastos = JSON.parse(data as string)
-            .gasto.filter(
-                (el: [string, number]) =>
-                    moment(el[0].split("T")[0]).format("YYYY-MM") ===
-                    date.format("YYYY-MM"),
-                "month",
-            )
-            .reduce((a: number, b: [string, number]) => a + b[1], 0);
-
-        ingresos = JSON.parse(data as string)
-            .ingreso.filter(
-                (el: [string, number]) =>
-                    moment(el[0].split("T")[0]).format("YYYY-MM") ===
-                    date.format("YYYY-MM"),
-                "month",
-            )
-            .reduce((a: number, b: [string, number]) => a + b[1], 0);
-
-        chart.data.datasets[0].data = [gastos, ingresos];
-        chart.update();
-    }); */
+    const chart = createChart(
+      "doughnut",
+      "res-circle-mes",
+      {
+        labels: ["Gastos", "Ingresos"],
+        datasets: [
+          {
+            data: [gastos, ingresos],
+            backgroundColor: [errorColor, successColor],
+            hoverOffset: 4,
+          },
+        ],
+      },
+      {
+        circumference: 180,
+        rotation: 270,
+        plugins: { legend: { display: false } },
+      },
+    );
+  });
 </script>
 
 <div class="size-full">
-    <canvas id="res-circle-mes"></canvas>
+  <canvas id="res-circle-mes" class="skeleton size-full"></canvas>
 </div>

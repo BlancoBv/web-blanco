@@ -1,83 +1,86 @@
 <script>
-    import moment from "moment";
-    import categorias from "src/utils/categorias";
-    import createChart from "src/utils/createChart";
+  import moment from "moment";
+  import categorias from "src/utils/categorias";
+  import createChart from "src/utils/createChart";
 
-    document.addEventListener("astro:page-load", () => {
-        if (!(window.location.hash === "#home")) {
-            return;
-        }
+  document.addEventListener("astro:page-load", () => {
+    if (!(window.location.hash === "#home")) {
+      return;
+    }
 
-        let data: string | null = localStorage.getItem("data");
+    let data: string | null = localStorage.getItem("data");
 
-        let finalData: { [key: string]: number } = {};
+    let finalData: { [key: string]: number } = {};
 
-        const date = moment();
+    const date = moment();
 
-        type internStruc = [string, number, string, number];
+    type internStruc = [string, number, string, number];
 
-        /* interface dataStorage {
+    /* interface dataStorage {
         gasto: internStruc;
         ingreso: internStruc;
     } */
 
-        const obtenerDatos = (data: string) => {
-            const xd = (JSON.parse(data).gasto as internStruc[]).filter(
-                (el) =>
-                    moment((el[0] as string).split("T")[0]).format(
-                        "YYYY-MM",
-                    ) === date.format("YYYY-MM"),
-            );
-            return xd;
-        };
+    const obtenerDatos = (data: string) => {
+      const xd = (JSON.parse(data).gasto as internStruc[]).filter(
+        (el) =>
+          moment((el[0] as string).split("T")[0]).format("YYYY-MM") ===
+          date.format("YYYY-MM"),
+      );
+      return xd;
+    };
 
-        if (data !== null) {
-            const tempData = obtenerDatos(data);
+    if (data !== null) {
+      const tempData = obtenerDatos(data);
 
-            tempData.forEach((el) => {
-                let categoriaId: any = el[3];
-                let nombreCategoria = "Indefinido";
+      tempData.forEach((el) => {
+        let categoriaId: any = el[3];
+        let nombreCategoria = "Indefinido";
 
-                if (categoriaId !== undefined) {
-                    const categoria =
-                        categorias[categoriaId as keyof typeof categorias];
+        if (categoriaId !== undefined) {
+          const categoria = categorias[categoriaId as keyof typeof categorias];
 
-                    if (categoria) {
-                        nombreCategoria = categoria.nombre;
-                    }
-                }
-
-                if (!finalData[nombreCategoria]) {
-                    finalData[nombreCategoria] = el[1];
-                } else {
-                    finalData[nombreCategoria] += el[1];
-                }
-            });
+          if (categoria) {
+            nombreCategoria = categoria.nombre;
+          }
         }
 
-        const chart = createChart("bar", "res-bar-mes-categoria", {
-            datasets: [
-                {
-                    label: "Categorías",
-                    data: Object.keys(finalData).map((el) => ({
-                        x: el,
-                        y: finalData[el],
-                    })),
-                    borderWidth: 1,
-                    backgroundColor: [
-                        "rgba(255, 99, 132, 1)",
-                        "rgba(255, 159, 64, 1)",
-                        "rgba(255, 205, 86, 1)",
-                        "rgba(75, 192, 192, 1)",
-                        "rgba(54, 162, 235, 1)",
-                        "rgba(153, 102, 255, 1)",
-                        "rgba(201, 203, 207, 1)",
-                    ],
-                },
-            ],
-        });
+        if (!finalData[nombreCategoria]) {
+          finalData[nombreCategoria] = el[1];
+        } else {
+          finalData[nombreCategoria] += el[1];
+        }
+      });
+    }
 
-        /* const chart = new Chart(canva, {
+    const chart = createChart(
+      "bar",
+      "res-bar-mes-categoria",
+      {
+        datasets: [
+          {
+            label: "Categorías",
+            data: Object.keys(finalData).map((el) => ({
+              x: el,
+              y: finalData[el],
+            })),
+            borderWidth: 1,
+            backgroundColor: [
+              "rgba(255, 99, 132, 1)",
+              "rgba(255, 159, 64, 1)",
+              "rgba(255, 205, 86, 1)",
+              "rgba(75, 192, 192, 1)",
+              "rgba(54, 162, 235, 1)",
+              "rgba(153, 102, 255, 1)",
+              "rgba(201, 203, 207, 1)",
+            ],
+          },
+        ],
+      },
+      { plugins: { legend: { display: false } } },
+    );
+
+    /* const chart = new Chart(canva, {
             type: "bar",
             data: {
                 datasets: [
@@ -109,7 +112,7 @@
             },
         }); */
 
-        /*         window.addEventListener("local-storage-changed", (event) => {
+    /*         window.addEventListener("local-storage-changed", (event) => {
             data = localStorage.getItem("data") as string;
 
             const tempData = obtenerDatos(data);
@@ -158,9 +161,9 @@
                 },
             ]);
         }); */
-    });
+  });
 </script>
 
 <div class="size-full">
-    <canvas id="res-bar-mes-categoria"></canvas>
+  <canvas id="res-bar-mes-categoria" class="skeleton size-full"></canvas>
 </div>

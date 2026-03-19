@@ -1,18 +1,19 @@
 ---
 interface Props {
-    title: string;
-    url?: string;
+  title: string;
+  url?: string;
+  class?: string;
 }
 
-const { title, url } = Astro.props;
+const { title, url, class: className } = Astro.props;
 ---
 
-<div class="card bg-base-100 shadow-sm h-100 w-full">
-    <div class="card-body">
-        <h2 class="card-title">{title}</h2>
-        <slot />
-        <!--         <div class="justify-end card-actions">
+<div class="card bg-base-100 shadow-sm w-full" class:list={className}>
+  <div class="card-body">
+    <h2 class="card-title text-base-content/60">{title}</h2>
+    <slot />
+    <!--         <div class="justify-end card-actions">
             <button class="btn btn-primary">Buy Now</button>
         </div> -->
-    </div>
+  </div>
 </div>

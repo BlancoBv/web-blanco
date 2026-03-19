@@ -4,9 +4,10 @@ import "../assets/app.css";
 import { ClientRouter } from "astro:transitions";
 interface Props {
     url: string;
+    title?:string
 }
 
-const { url } = Astro.props;
+const { url, title } = Astro.props;
 ---
 
 <!doctype html>
@@ -52,7 +53,7 @@ const { url } = Astro.props;
                     <i class="bi bi-arrow-left-short text-2xl"></i>
                 </a>}
                 <button type="button" class="btn btn-ghost text-xl">
-                    { url==="add" ? "Añadir registro" : "Control de gastos"}
+                    { title?? "Control de gastos"}
                 </button>
             </div>
         </div>

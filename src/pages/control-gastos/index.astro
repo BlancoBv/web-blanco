@@ -4,18 +4,22 @@ import ChartResumenMes from "@components/controlGastos/ChartCircleMes.astro";
 import ChartBarMes from "@components/controlGastos/ChartBarMes.astro";
 import ChartWrapper from "@components/controlGastos/ChartWrapper.astro";
 import ChartBarCategoriaMes from "@components/controlGastos/ChartBarCategoriaMes.astro";
+import Stats from "@components/controlGastos/Stats.vue";
 ---
 
 <Layout url="control">
-    <div class="flex flex-col gap-4 items-center">
-        <ChartWrapper title="Vista general del mes actual">
-            <ChartResumenMes />
-        </ChartWrapper>
-        <ChartWrapper title="Resumen por día del mes actual">
-            <ChartBarMes />
-        </ChartWrapper>
-        <ChartWrapper title="Resumen de gastos por categoría del mes actual">
-            <ChartBarCategoriaMes />
-        </ChartWrapper>
-    </div>
+  <div class="flex flex-col gap-4 items-center">
+    <ChartWrapper title="Resumen del mes actual">
+      <div class="h-56 md:h-100">
+        <ChartResumenMes />
+      </div>
+      <Stats client:visible />
+    </ChartWrapper>
+    <ChartWrapper title="Gastos por día del mes actual" class="h-100">
+      <ChartBarMes />
+    </ChartWrapper>
+    <ChartWrapper title="Gastos por categoría del mes actual" class="h-100">
+      <ChartBarCategoriaMes />
+    </ChartWrapper>
+  </div>
 </Layout>
