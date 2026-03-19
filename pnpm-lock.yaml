@@ -47,6 +47,9 @@ importers:
       sharp:
         specifier: ^0.33.5
         version: 0.33.5
+      sweetalert2:
+        specifier: ^11.26.23
+        version: 11.26.23
       tailwindcss:
         specifier: ^4.2.1
         version: 4.2.1
@@ -2612,6 +2615,9 @@ packages:
     resolution: {integrity: sha512-VvrHQ+9uniE+Mvx3+C9IEe/lWasXCU0nXMY2kZeLrHNICuRiC8uMPyM14UEaMOFA5mhyQqEkB02VoQ16n3DLaw==}
     engines: {node: '>=16'}
     hasBin: true
+
+  sweetalert2@11.26.23:
+    resolution: {integrity: sha512-6Y6Auvk/gLUcVtPHWhDkJs+JCDraxAWNdITdIbOqeo3mZthVZT3XfDjrxcSHtElUz7DmF21oEqUCW2eWR15eDA==}
 
   tailwindcss@4.2.1:
     resolution: {integrity: sha512-/tBrSQ36vCleJkAOsy9kbNTgaxvGbyOamC30PRePTQe/o1MFwEKHQk4Cn7BNGaPtjp+PuUrByJehM1hgxfq4sw==}
@@ -5934,6 +5940,8 @@ snapshots:
       csso: 5.0.5
       picocolors: 1.1.1
       sax: 1.4.3
+
+  sweetalert2@11.26.23: {}
 
   tailwindcss@4.2.1: {}
 

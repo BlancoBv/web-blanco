@@ -5,6 +5,7 @@ import InputMonto from './InputMonto.vue';
 import moment from 'moment';
 import "moment/dist/locale/es";
 import SelectCategorias from './SelectCategorias.vue';
+import Swal from 'sweetalert2';
 
 const date = moment()
 const fecha = ref<string>(date.format("YYYY-MM-DD"))
@@ -35,19 +36,22 @@ const submit = () => {
         parsedData[tipo.value].push(value)
         window.localStorage.setItem("data", JSON.stringify(parsedData))
     }
-
     nextTick(() => {
         categoria.value = ""
         monto.value = ""
         tipo.value = "gasto"
+        Swal.fire({ text: "¡Añadido correctamente!", icon: "success", timer: 1000, showConfirmButton: false, timerProgressBar: true })
+
+        /* window.dispatchEvent(
+            new CustomEvent("local-storage-changed", {
+                detail: {
+                    icon: "success",
+                    storage: localStorage.getItem("data"),
+                },
+            }),
+        ); */
     })//sincroniza los valores
-    window.dispatchEvent(
-        new CustomEvent("local-storage-changed", {
-            detail: {
-                storage: localStorage.getItem("data"),
-            },
-        }),
-    );
+
 }
 
 </script>

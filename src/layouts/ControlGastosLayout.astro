@@ -55,68 +55,25 @@ const { url } = Astro.props;
                     { url==="add" ? "Añadir registro" : "Control de gastos"}
                 </button>
             </div>
-            <!--             <div class="flex-none">
-                <ul class="menu menu-horizontal px-1">
-                    <li>
-                        <a href="/control-gastos/lista-mes">Registros del mes</a
-                        >
-                    </li>
-                    <li>
-                        <a href="#">Historico</a>
-                    </li>
-                </ul>
-            </div> -->
         </div>
        <div class="p-4"> <slot /> </div>
         </div>
         { !(url==="add") && <div class="fab bottom-20">
             <a
                 href="/control-gastos/add"
-                class="btn btn-lg btn-circle btn-primary"
+                class="btn btn-xl btn-circle btn-primary"
                 transition:persist
                 transition:name="button-add"
             >
-                <i class="bi bi-plus text-lg"></i>
+                <i class="bi bi-plus text-2xl"></i>
             </a>
         </div>
         <Tabs />}
     </body>
 </html>
-<style is:global>
-    /* :root {
-    --accent: 136, 58, 234;
-    --accent-light: 224, 204, 250;
-    --accent-dark: 49, 10, 101;
-    --accent-gradient: linear-gradient(
-      45deg,
-      rgb(var(--accent)),
-      rgb(var(--accent-light)) 30%,
-      white 60%
-    );
-  } */
-    /*  html {
-    font-family: system-ui, sans-serif;
-    background: #13151a;
-    background-size: 224px;
-  } */
-    code {
-        font-family:
-            Menlo,
-            Monaco,
-            Lucida Console,
-            Liberation Mono,
-            DejaVu Sans Mono,
-            Bitstream Vera Sans Mono,
-            Courier New,
-            monospace;
-    }
-    body {
-        position: relative;
-    }
-</style>
+<script>     
+        if (typeof navigator.serviceWorker !== 'undefined') {
+    navigator.serviceWorker.register('/sw.js')
+  }
 
-<script>
-        if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("/sw.js");
-    }
 </script>

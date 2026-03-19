@@ -3,6 +3,7 @@ import moment from 'moment';
 import { computed, onMounted, ref } from 'vue';
 import categorias from 'src/utils/categorias';
 import _ from 'lodash';
+import Swal from 'sweetalert2';
 
 const isMounted = ref<boolean>(false)
 const gastos = ref<[string, number][]>([])
@@ -27,7 +28,7 @@ const deleteElement = (tipo: string, index: number) => {
         } else {
             ingresos.value = newData[tipo]
         }
-
+        Swal.fire({ text: "¡Eliminado correctamente!", icon: "success", timer: 1000, showConfirmButton: false, timerProgressBar: true })
         return
     }
 }
@@ -95,7 +96,7 @@ onMounted(() => {
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-square btn-ghost" @click="deleteElement(value[2], value.at(-1) as number)">
+                <button class="btn btn-square btn-error" @click="deleteElement(value[2], value.at(-1) as number)">
                     <i class="bi bi-trash"></i>
                 </button>
             </li>
