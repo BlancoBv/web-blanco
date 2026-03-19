@@ -1,7 +1,7 @@
 <div class="dock">
     <a
         href="/control-gastos#home"
-        class="group-data-[route=control]:dock-active"
+        class="group-data-[route=control]:dock-active group-data-[route=control]:pointer-events-none"
         data-astro-replace
     >
         <i class="bi bi-house"></i>
@@ -10,20 +10,21 @@
 
     <a
         href="/control-gastos/lista-mes"
-        class="group-data-[route=registro]:dock-active"
-        data-astro-replace
+        class="group-data-[route=registro]:dock-active group-data-[route=registro]:pointer-events-none"
+        data-astro-push
     >
         <i class="bi bi-list-ol"></i>
         <span class="dock-label">Registros mes</span>
     </a>
 
-    <a href="#">
+    <a href="#" class="pointer-events-none">
         <i class="bi bi-graph-up"></i>
         <span class="dock-label">Historico</span>
     </a>
     <a
         href="/control-gastos/ajustes"
-        class="group-data-[route=ajustes]:dock-active"
+        class="group-data-[route=ajustes]:dock-active group-data-[route=ajustes]:pointer-events-none"
+        data-astro-push
     >
         <i class="bi bi-gear"></i>
         <span class="dock-label">Ajustes</span>

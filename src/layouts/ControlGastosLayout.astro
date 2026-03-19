@@ -10,7 +10,7 @@ const { url } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="es" data-theme="light" transition:animate={url==="add"?"slide" :"fade"}>
+<html lang="es" data-theme="light">
     <head>
         <meta charset="UTF-8" />
         <meta name="description" content="Astro description" />
@@ -44,8 +44,9 @@ const { url } = Astro.props;
     <body class="h-dvh group" data-route={url}>
         <div
             class="overflow-y-auto overflow-x-hidden" class:list={{"h-dvh": url==="add", "h-[calc(100dvh-64px)]": !(url==="add")}}
+            transition:animate="slide"
         >
-        <div class="navbar bg-base-100/80 backdrop-blur-xs shadow-sm h-16 z-50 sticky top-0">
+        <div class="navbar bg-base-100/70 backdrop-blur-xs shadow-sm h-16 z-50 sticky top-0">
             <div class="flex-1">
                 {url==="add" && <a href="javascript:history.back()" class="btn btn-ghost text-xl" data-astro-replace>
                     <i class="bi bi-arrow-left-short text-2xl"></i>
@@ -72,6 +73,8 @@ const { url } = Astro.props;
             <a
                 href="/control-gastos/add"
                 class="btn btn-lg btn-circle btn-primary"
+                transition:persist
+                transition:name="button-add"
             >
                 <i class="bi bi-plus text-lg"></i>
             </a>
