@@ -80,6 +80,13 @@
       { plugins: { legend: { display: false } } },
     );
 
+    document.addEventListener("fullscreenchange", (ev) => {
+      setTimeout(() => {
+        chart.resize();
+      }, 200);
+      console.log("cambiooo");
+    });
+
     /* const chart = new Chart(canva, {
             type: "bar",
             data: {

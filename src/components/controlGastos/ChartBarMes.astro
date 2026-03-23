@@ -89,6 +89,12 @@
       },
       { responsive: true, maintainAspectRatio: false },
     );
+
+    document.addEventListener("fullscreenchange", (ev) => {
+      setTimeout(() => {
+        chart.resize();
+      }, 200);
+    });
   });
 
   /* window.addEventListener("local-storage-changed", (_ev) => {

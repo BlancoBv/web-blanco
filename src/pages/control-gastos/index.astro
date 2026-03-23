@@ -17,14 +17,14 @@ import Stats from "@components/controlGastos/Stats.vue";
     </ChartWrapper>
     <ChartWrapper
       title="Gastos por día del mes actual"
-      class="h-100 md:h-auto"
+      class="h-150"
       idWrapper="res-bar-mes"
     >
       <ChartBarMes />
     </ChartWrapper>
     <ChartWrapper
       title="Gastos por categoría del mes actual"
-      class="h-100 md:h-auto"
+      class="h-150"
       idWrapper="res-bar-mes-categoria"
     >
       <ChartBarCategoriaMes />
@@ -35,8 +35,11 @@ import Stats from "@components/controlGastos/Stats.vue";
   document.addEventListener("astro:page-load", () => {
     document.addEventListener("click", async (ev) => {
       const targetContainer: string | null =
-        (ev?.target as unknown as { dataset: { targetFullscreen?: string } })
-          ?.dataset?.targetFullscreen ?? null;
+        (
+          ev?.target?.closest(".btn") as unknown as {
+            dataset: { targetFullscreen?: string };
+          }
+        )?.dataset?.targetFullscreen ?? null;
 
       if (targetContainer === null) {
         return;
@@ -52,8 +55,8 @@ import Stats from "@components/controlGastos/Stats.vue";
           await container.requestFullscreen();
 
           // Intentar forzar horizontal (Android)
-          if (screen.orientation && (screen.orientation as any).lock) {
-            await (screen.orientation as any)?.lock?.("landscape");
+          if (screen.orientation && screen.orientation.lock) {
+            await screen.orientation.lock("landscape");
           }
         } else {
           await document.exitFullscreen();
