@@ -36,7 +36,7 @@ import Stats from "@components/controlGastos/Stats.vue";
     document.addEventListener("click", async (ev) => {
       const targetContainer: string | null =
         (
-          ev?.target?.closest(".btn") as unknown as {
+          (ev?.target as unknown as any)?.closest(".btn") as unknown as {
             dataset: { targetFullscreen?: string };
           }
         )?.dataset?.targetFullscreen ?? null;
