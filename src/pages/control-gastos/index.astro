@@ -15,11 +15,83 @@ import Stats from "@components/controlGastos/Stats.vue";
       </div>
       <Stats client:visible />
     </ChartWrapper>
-    <ChartWrapper title="Gastos por día del mes actual" class="h-100">
+    <ChartWrapper
+      title="Gastos por día del mes actual"
+      class="h-100 md:h-auto"
+      idWrapper="res-bar-mes"
+    >
       <ChartBarMes />
     </ChartWrapper>
-    <ChartWrapper title="Gastos por categoría del mes actual" class="h-100">
+    <ChartWrapper
+      title="Gastos por categoría del mes actual"
+      class="h-100 md:h-auto"
+      idWrapper="res-bar-mes-categoria"
+    >
       <ChartBarCategoriaMes />
     </ChartWrapper>
   </div>
 </Layout>
+<script>
+  document.addEventListener("astro:page-load", () => {
+    document.addEventListener("click", async (ev) => {
+      const targetContainer: string | null =
+        (ev?.target as unknown as { dataset: { targetFullscreen?: string } })
+          ?.dataset?.targetFullscreen ?? null;
+
+      if (targetContainer === null) {
+        return;
+      }
+
+      try {
+        // Activar fullscreen
+
+        const container = document.getElementById(
+          targetContainer,
+        ) as HTMLElement;
+        if (!document.fullscreenElement) {
+          await container.requestFullscreen();
+
+          // Intentar forzar horizontal (Android)
+          if (screen.orientation && (screen.orientation as any).lock) {
+            await (screen.orientation as any)?.lock?.("landscape");
+          }
+        } else {
+          await document.exitFullscreen();
+
+          // Regresar orientación normal
+          if (screen.orientation && screen.orientation.unlock) {
+            screen.orientation.unlock();
+          }
+        }
+      } catch (err) {
+        console.error("Error fullscreen/orientation:", err);
+      }
+    });
+
+    /* btn?.addEventListener("click", async () => {
+      console.log(btn.dataset.target);
+
+      const container = document.getElementById(btn.dataset.target);
+      try {
+        // Activar fullscreen
+        if (!document.fullscreenElement) {
+          await container.requestFullscreen();
+
+          // Intentar forzar horizontal (Android)
+          if (screen.orientation && screen.orientation.lock) {
+            await screen.orientation.lock("landscape");
+          }
+        } else {
+          await document.exitFullscreen();
+
+          // Regresar orientación normal
+          if (screen.orientation && screen.orientation.unlock) {
+            screen.orientation.unlock();
+          }
+        }
+      } catch (err) {
+        console.error("Error fullscreen/orientation:", err);
+      }
+    }); */
+  });
+</script>

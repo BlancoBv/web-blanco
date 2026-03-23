@@ -3,17 +3,24 @@ interface Props {
   title: string;
   url?: string;
   class?: string;
+  idWrapper?: string;
 }
 
-const { title, url, class: className } = Astro.props;
+const { title, url, class: className, idWrapper } = Astro.props;
 ---
 
 <div class="card bg-base-100 shadow-sm w-full" class:list={className}>
   <div class="card-body">
     <h2 class="card-title text-base-content/60">{title}</h2>
     <slot />
-    <!--         <div class="justify-end card-actions">
-            <button class="btn btn-primary">Buy Now</button>
-        </div> -->
+    {
+      idWrapper && (
+        <div class="card-actions justify-end">
+          <button class="btn btn-ghost" data-target-fullscreen={idWrapper}>
+            <i class="bi bi-fullscreen text-lg" />
+          </button>
+        </div>
+      )
+    }
   </div>
 </div>

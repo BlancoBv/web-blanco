@@ -60,30 +60,35 @@
 
       gastos = _(gastos).toPairs().sortBy(0).fromPairs().value();
     }
-    const chart = createChart("bar", "res-bar-mes", {
-      datasets: [
-        {
-          label: "Gastos",
-          data: Object.keys(gastos).map((el) => ({
-            x: el,
-            y: gastos[el],
-          })),
-          borderWidth: 1,
-          backgroundColor: errorColor,
-          borderColor: errorColor,
-        },
-        {
-          label: "Ingresos",
-          data: Object.keys(ingresos).map((el) => ({
-            x: el,
-            y: ingresos[el],
-          })),
-          borderWidth: 1,
-          backgroundColor: successColor,
-          borderColor: successColor,
-        },
-      ],
-    });
+    const chart = createChart(
+      "bar",
+      "res-bar-mes",
+      {
+        datasets: [
+          {
+            label: "Gastos",
+            data: Object.keys(gastos).map((el) => ({
+              x: el,
+              y: gastos[el],
+            })),
+            borderWidth: 1,
+            backgroundColor: errorColor,
+            borderColor: errorColor,
+          },
+          {
+            label: "Ingresos",
+            data: Object.keys(ingresos).map((el) => ({
+              x: el,
+              y: ingresos[el],
+            })),
+            borderWidth: 1,
+            backgroundColor: successColor,
+            borderColor: successColor,
+          },
+        ],
+      },
+      { responsive: true, maintainAspectRatio: false },
+    );
   });
 
   /* window.addEventListener("local-storage-changed", (_ev) => {
