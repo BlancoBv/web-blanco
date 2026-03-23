@@ -55,15 +55,15 @@ import Stats from "@components/controlGastos/Stats.vue";
           await container.requestFullscreen();
 
           // Intentar forzar horizontal (Android)
-          if (screen.orientation && screen.orientation.lock) {
-            await screen.orientation.lock("landscape");
+          if (screen.orientation && (screen.orientation as unknown as any)?.lock) {
+            await (screen.orientation as unknown as any)?.lock?.("landscape");
           }
         } else {
           await document.exitFullscreen();
 
           // Regresar orientación normal
-          if (screen.orientation && screen.orientation.unlock) {
-            screen.orientation.unlock();
+          if (screen.orientation && (screen.orientation as unknown as any)?.unlock) {
+            (screen.orientation as unknown as any)?.unlock?.();
           }
         }
       } catch (err) {
